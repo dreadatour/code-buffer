@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Lost code</title>
+	<style>
+	html, body, div, span, input, form {margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline}
+	body {background:#eee;font-family:Trebuchet MS, Tahoma, sans-serif;font-size:16px;min-width:900px}
+	span {color:#333;font-size:14px;line-height:14px;margin-left:10px}
+	span:first-child {margin-left:0}
+	input[type="text"], textarea {background-color:#eeeeee;background-image:linear-gradient(top, #eeeeee 0, white 15px);background-image:-o-linear-gradient(top, #eeeeee 0, white 15px);background-image:-moz-linear-gradient(top, #eeeeee 0, white 15px);background-image:-webkit-linear-gradient(top, #eeeeee 0, white 15px);background-image:-ms-linear-gradient(top, #eeeeee 0, white 15px);-moz-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;border:1px solid #888888;cursor:text;font-family:Trebuchet MS, Tahoma, sans-serif;font-size:16px;height:26px;line-height:18px;padding:3px 5px;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box}
+	textarea {font-family:monospace;font-size:16px;line-height:18px;margin:0;padding:3px;resize:none;width:100%;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box}
+	select {background-color:#eeeeee;background-image:linear-gradient(top, #eeeeee 0%, #bbbbbb 100%);background-image:-o-linear-gradient(top, #eeeeee 0%, #bbbbbb 100%);background-image:-moz-linear-gradient(top, #eeeeee 0%, #bbbbbb 100%);background-image:-webkit-linear-gradient(top, #eeeeee 0%, #bbbbbb 100%);background-image:-ms-linear-gradient(top, #eeeeee 0%, #bbbbbb 100%);-moz-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;border:1px solid #888888;cursor:pointer;font-family:Trebuchet MS, Tahoma, sans-serif;font-size:16px;height:26px;line-height:20px;padding:3px 5px}
+	input[type="submit"], input[type="button"] {background-color:#eeeeee;background-image:linear-gradient(top, #eeeeee 0%, #bbbbbb 100%);background-image:-o-linear-gradient(top, #eeeeee 0%, #bbbbbb 100%);background-image:-moz-linear-gradient(top, #eeeeee 0%, #bbbbbb 100%);background-image:-webkit-linear-gradient(top, #eeeeee 0%, #bbbbbb 100%);background-image:-ms-linear-gradient(top, #eeeeee 0%, #bbbbbb 100%);-moz-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;border:1px solid #888888;cursor:pointer;height:26px;line-height:20px;padding:2px 15px;margin-left:10px}
+	input[type="submit"]:hover, input[type="button"]:hover {background-color:white;background-image:linear-gradient(top, white 0%, #cccccc 100%);background-image:-o-linear-gradient(top, white 0%, #cccccc 100%);background-image:-moz-linear-gradient(top, white 0%, #cccccc 100%);background-image:-webkit-linear-gradient(top, white 0%, #cccccc 100%);background-image:-ms-linear-gradient(top, white 0%, #cccccc 100%)}
+	input[type="submit"]:active, input[type="button"]:active {background-color:#bbbbbb;background-image:linear-gradient(top, #bbbbbb 0%, #eeeeee 100%);background-image:-o-linear-gradient(top, #bbbbbb 0%, #eeeeee 100%);background-image:-moz-linear-gradient(top, #bbbbbb 0%, #eeeeee 100%);background-image:-webkit-linear-gradient(top, #bbbbbb 0%, #eeeeee 100%);background-image:-ms-linear-gradient(top, #bbbbbb 0%, #eeeeee 100%)}
+	#header {margin:10px}
+	#body {margin:0 10px}
+	#footer {color:#888;font-size:14px;margin:5px 10px;text-align:center}
+	.link {color:#888;margin-left:2px;text-decoration:none}
+	.link:hover {color:#444;text-decoration:underline}
+	</style>
+</head>
+<body>
+	<form action="/save/" method="post">{% if uid %}<input type="hidden" name="uid" value="{{ uid }}">{% endif %}
+	<div id="header"><span>Имя файла:&nbsp;</span><input id="title" type="text" name="title" value="{{ title }}" tabindex="1"><span>Синтаксис:&nbsp;</span><select name="lang" tabindex="3"><option value=""{% if not lang %} selected="true"{% endif %}>- без подсветки синтаксиса -</option><option value="*auto*"{% if not uid or lang == '*auto*' %} selected="true"{% endif %}>- автоопределение -</option>{% for lex in lexers %}<option value="{{ lex.name }}"{% if lex.name == lang %}selected="true"{% endif %}>{{ lex.title }}</option>{% endfor %}</select>{% if uid %}<input type="button" value="Отмена" tabindex="5" onclick="location.href='/{{ uid }}/'">{% endif %}<input type="submit" value="{% if uid %}Сохранить{% else %}Добавить{% endif %}" tabindex="4"></div>
+	<div id="body"><textarea id="code" name="code" tabindex="2">{{ code }}</textarea></div>
+	</form>
+	<div id="footer">&copy;<a href="http://foreva.pro" class="link" tabindex="-1">ƒoreva</a></div>
+	<script>
+	function resize_elements() {
+		var header = document.getElementById('header');
+		var footer = document.getElementById('footer');
+		var childs_width = 0;
+		for (var i = 0; i < header.childNodes.length; i++) {
+			if (header.childNodes[i].offsetWidth && header.childNodes[i].id != 'title') {
+				childs_width += header.childNodes[i].offsetWidth;
+			}
+		}
+		document.getElementById('title').style.width = (header.offsetWidth - childs_width - {% if uid %}34{% else %}24{% endif %}) + 'px';
+		document.getElementById('code').style.height = (window.innerHeight - header.offsetHeight - footer.offsetHeight - 35) + 'px';
+	}
+	window.onload = function() {resize_elements(); document.getElementById('code').focus()};
+	window.onresize = resize_elements;
+	</script>
+</body>
+</html>
