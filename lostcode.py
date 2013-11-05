@@ -180,6 +180,8 @@ def view(uid):
         app.logger.error("Can't read file: '%s'" % filename)
         abort(404)  # file is bad (can't read it)
 
+    code = snippet.get('code', '')
+
     snippet['uid'] = uid
     user_id = request.cookies.get('user_id')
     if user_id is not None and UID_RE.match(user_id):
@@ -187,25 +189,30 @@ def view(uid):
             snippet['editable'] = True  # user can edit snippet
 
     if request.path.endswith('/raw/'):  # this is raw snippet view
-        return Response(snippet['code'], content_type='text/plain')
+        return Response(code, content_type='text/plain')
 
     if request.path.endswith('/edit/'):  # this is 'edit snippet' page
         return render_template('edit.html', lexers=lexers_list(), **snippet)
 
-    if snippet['lang']:
-        if snippet['lang'] == '*auto*':
-            lexer = guess_lexer(snippet['code'])
+    # get lexer
+    lang = snippet.get('lang')
+    if lang == '*auto*':
+        if code:
+            lexer = guess_lexer(code)
         else:
-            try:
-                lexer = get_lexer_by_name(snippet['lang'], stripall=True)
-            except ClassNotFound:
-                lexer = TextLexer()
+            lexer = TextLexer()
+    elif lang:
+        try:
+            lexer = get_lexer_by_name(lang, stripall=True)
+        except ClassNotFound:
+            lexer = TextLexer()
     else:
         lexer = TextLexer()
-
-    formatter = HtmlFormatter(linenos=True)
-    snippet['html'] = highlight(snippet['code'], lexer, formatter)
     snippet['lexer'] = lexer.name
+
+    # format code with lexer
+    formatter = HtmlFormatter(linenos=True)
+    snippet['html'] = highlight(code, lexer, formatter)
 
     # this is 'view snippet' page
     return render_template('view.html', **snippet)
