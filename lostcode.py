@@ -20,6 +20,14 @@ SNIPPETS_DIR = os.path.abspath(os.path.join(PROJECT_ROOT, 'snippets'))
 UID_RE = re.compile(r'^[0-9a-fA-F]{32}$')
 
 
+def lexers_list():
+    """
+    Get list of pygments lexers.
+    """
+    lexers = [{'title': lex[0], 'name': lex[1][0]} for lex in get_all_lexers()]
+    return sorted(lexers, key=lambda lex: lex['title'].lower())
+
+
 def snippet_file(uid):
     """
     Get snippet file path by snippet uid.
@@ -182,10 +190,7 @@ def view(uid):
         return Response(snippet['code'], content_type='text/plain')
 
     if request.path.endswith('/edit/'):  # this is 'edit snippet' page
-        lexers = [{'title': lex[0], 'name': lex[1][0]}
-                  for lex in get_all_lexers()]
-        lexers = sorted(lexers, key=lambda lex: lex['title'].lower())
-        return render_template('edit.html', lexers=lexers, **snippet)
+        return render_template('edit.html', lexers=lexers_list(), **snippet)
 
     if snippet['lang']:
         if snippet['lang'] == '*auto*':
@@ -197,6 +202,7 @@ def view(uid):
                 lexer = TextLexer()
     else:
         lexer = TextLexer()
+
     formatter = HtmlFormatter(linenos=True)
     snippet['html'] = highlight(snippet['code'], lexer, formatter)
     snippet['lexer'] = lexer.name
@@ -210,10 +216,7 @@ def add():
     """
     Edit snippet.
     """
-    lexers = [{'title': lex[0], 'name': lex[1][0]}
-              for lex in get_all_lexers()]
-    lexers = sorted(lexers, key=lambda lex: lex['title'].lower())
-    return render_template('edit.html', lexers=lexers)
+    return render_template('edit.html', lexers=lexers_list())
 
 
 if __name__ == '__main__':
