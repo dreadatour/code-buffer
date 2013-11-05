@@ -17,7 +17,7 @@ Just for fun (проект выходного дня).
 
 3. Ставим зависимости:
 
-        pip install requirements.txt
+        pip install -r requirements.txt
 
 4. Запускаем:
 
