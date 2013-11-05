@@ -1,5 +1,6 @@
 # coding: utf-8
 import errno
+import hashlib
 import os
 import re
 import uuid
@@ -75,7 +76,7 @@ def save_snippet(filename, user_id, lang, title, code):
     # save file
     try:
         with open(filename, 'w') as output:
-            output.write('%s\n' % user_id)
+            output.write('%s\n' % hashlib.md5(user_id).hexdigest())
             output.write('%s\n' % lang)
             output.write('%s\n' % title)
             output.write('====8<====\n')
@@ -140,7 +141,7 @@ def save():
             app.logger.error("Cookie user_id is wrong: '%s'" % user_id)
             abort(403)  # user cookie is bad
 
-        if user_id != snippet['user_id']:
+        if snippet.get('user_id') != hashlib.md5(user_id).hexdigest():
             app.logger.error(
                 "User is wrong: '%s' != '%s'" % (user_id, snippet['user_id'])
             )
@@ -185,7 +186,7 @@ def view(uid):
     snippet['uid'] = uid
     user_id = request.cookies.get('user_id')
     if user_id is not None and UID_RE.match(user_id):
-        if user_id == snippet['user_id']:
+        if snippet.get('user_id') == hashlib.md5(user_id).hexdigest():
             snippet['editable'] = True  # user can edit snippet
 
     if request.path.endswith('/raw/'):  # this is raw snippet view
