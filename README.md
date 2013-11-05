@@ -27,6 +27,10 @@ Just for fun (проект выходного дня).
 6. ...
 7. Profit!
 
+### Добавление кода:
+
 ![Screenshot](http://cdn.dreadatour.ru/28vOL.png)
+
+### Просмотр кода:
 
 ![Screenshot](http://cdn.dreadatour.ru/HCF0I.png)
