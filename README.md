@@ -27,6 +27,12 @@ Just for fun (проект выходного дня).
 6. ...
 7. Profit!
 
+### Удаление старых файлов
+
+Для удаления всех файлов старше 30 дней добавляем в крон (например, раз в сутки, ночью) следующую команду:
+
+    find /path/to/lostcode/snippets/ -type f -mtime +30 -exec rm {} \;
+
 ### Добавление кода:
 
 ![Screenshot](http://cdn.dreadatour.ru/28vOL.png)
