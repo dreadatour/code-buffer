@@ -1,4 +1,7 @@
 # coding: utf-8
+from __future__ import with_statement
+
+import codecs
 import errno
 import hashlib
 import os
@@ -41,13 +44,13 @@ def read_snippet(filename):
     Read snippet file and get user_id, lang, title and code.
     """
     try:
-        with open(filename) as snippet:
+        with codecs.open(filename, 'r', 'utf-8') as snippet:
             content = snippet.readlines()
     except IOError:
         return None
 
     # simplest check for snippet file format
-    if len(content) < 5 or content[3].strip() != '====8<====':
+    if len(content) < 5 or content[3].strip() != u'====8<====':
         return None
 
     return {
@@ -75,12 +78,12 @@ def save_snippet(filename, user_id, lang, title, code):
 
     # save file
     try:
-        with open(filename, 'w') as output:
-            output.write('%s\n' % hashlib.md5(user_id).hexdigest())
-            output.write('%s\n' % lang)
-            output.write('%s\n' % title)
-            output.write('====8<====\n')
-            output.write('%s\n' % code)
+        with codecs.open(filename, 'w', 'utf-8') as output:
+            output.write(u'%s\n' % hashlib.md5(user_id).hexdigest())
+            output.write(u'%s\n' % lang)
+            output.write(u'%s\n' % title)
+            output.write(u'====8<====\n')
+            output.write(u'%s\n' % code)
     except IOError:
         app.logger.error("Can't write to file: '%s'" % filename)
         abort(500)
