@@ -17,9 +17,10 @@
 	input[type="submit"]:active, input[type="button"]:active {background-color:#bbbbbb;background-image:linear-gradient(top, #bbbbbb 0%, #eeeeee 100%);background-image:-o-linear-gradient(top, #bbbbbb 0%, #eeeeee 100%);background-image:-moz-linear-gradient(top, #bbbbbb 0%, #eeeeee 100%);background-image:-webkit-linear-gradient(top, #bbbbbb 0%, #eeeeee 100%);background-image:-ms-linear-gradient(top, #bbbbbb 0%, #eeeeee 100%)}
 	#header {margin:10px}
 	#body {margin:0 10px}
-	#footer {color:#888;font-size:14px;margin:5px 10px;text-align:center}
+	#footer {color:#888;font-size:14px;margin:5px 10px;text-align:center;position:relative}
 	.link {color:#888;margin-left:2px;text-decoration:none}
 	.link:hover {color:#444;text-decoration:underline}
+	.github {background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAQAAAC1+jfqAAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAAAEgAAABIAEbJaz4AAAElSURBVCjPZZG9SgNBFIU/sUlAsBCrpBBsLQS1UEuxyiIhkIC+gf0WeQIJKc0DiClSWWiwEp9ATV7AdUkVFPwBOyv9MqsmIXO2OHPOmbl370C28pTokPAuEllJZWIVOFXuElMTsSxRKYztS/pUJs7k3fVVQyRntsc+dQ4osiaKsrpKTyeH1RLKrDLkU/YsEtlQpSwrYUNdr9zhje8JvLKr2tU1FVuoOWWP0FSNdfmgyjztmUBbtabrVzPbmAk0VEMgK7HN05Sd2sNviQ5XLLNlv2cMgjngnD3mWMiaHP1mlSOOWec6BC5YDOOq6ETjQZ1w4zuMAncsaW84yzCobNQ9DtnkPgQeWHFI/6POIi0evWEYAi/cumuN7ex5IhtK+RKpLPp7uh8n/4YrqEg/dwAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxMi0wOC0xNVQwNzoyNDo1MSswNDowMO12EPsAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTItMDgtMTVUMDc6MjQ6NTErMDQ6MDCcK6hHAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAABJRU5ErkJggg==) no-repeat center left;padding-left:20px;position:absolute;right:10px;top:0}
 	</style>
 </head>
 <body>
@@ -27,7 +28,7 @@
 	<div id="header"><span>Имя файла:&nbsp;</span><input id="title" type="text" name="title" value="{{ title }}" tabindex="1"><span>Синтаксис:&nbsp;</span><select name="lang" tabindex="3"><option value=""{% if not lang %} selected="true"{% endif %}>- без подсветки синтаксиса -</option><option value="*auto*"{% if not uid or lang == '*auto*' %} selected="true"{% endif %}>- автоопределение -</option>{% for lex in lexers %}<option value="{{ lex.name }}"{% if lex.name == lang %}selected="true"{% endif %}>{{ lex.title }}</option>{% endfor %}</select>{% if uid %}<input type="button" value="Отмена" tabindex="5" onclick="location.href='/{{ uid }}/'">{% endif %}<input type="submit" value="{% if uid %}Сохранить{% else %}Добавить{% endif %}" tabindex="4"></div>
 	<div id="body"><textarea id="code" name="code" tabindex="2">{{ code }}</textarea></div>
 	</form>
-	<div id="footer">&copy;<a href="http://foreva.pro" class="link" tabindex="-1">ƒoreva</a></div>
+	<div id="footer">&copy;<a href="http://foreva.pro" class="link" tabindex="-1">ƒoreva</a><a href="https://github.com/dreadatour/lostcode" class="link github">Fork me on GitHub</a></div>
 	<script>
 	function resize_elements() {
 		var header = document.getElementById('header');

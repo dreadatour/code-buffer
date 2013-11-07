@@ -6,33 +6,32 @@
 	<link rel="shortcut icon" href="/favicon.ico">
 	<style>
 	html, body, div, span, pre, code, input, form {margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline}
-	body {background:#eee;font-family:Trebuchet MS, Tahoma, sans-serif;font-size:16px;min-width:900px;height:100%;line-height:1}
+	body {background-color:#fff;font-family:Trebuchet MS, Tahoma, sans-serif;font-size:16px;min-width:900px;height:100%;line-height:1}
+	html, body, #wrap {height:100%}
+	body > #wrap {height:auto;min-height:100%}
+	i {color:#666}
 	a {color:#396298}
 	a:hover {color:#6c96cc}
-	#header {padding:10px}
+	#header {background-color:#eee;border-bottom:1px solid #ccc;padding:10px}
 	.title {font-weight:bold;text-decoration:none}
-	#body {background-color:#fff;border-top:1px solid #ccc;border-bottom:1px solid #ccc;padding:10px}
+	#body {background-color:#fff;padding:10px 10px 26px}
 	.error {position:absolute;left:50%; top:50%;width:400px;margin-left:-200px;margin-top:-40px;text-align:center;font-size:24px;color:#555}
 	.error strong {font-size:42px}
-	#footer {color:#888;font-size:14px;padding:5px 10px;text-align:center}
+	#footer {background-color:#eee;border-top:1px solid #ccc;color:#888;font-size:14px;line-height:26px;text-align:center;position:relative;margin-top:-26px;height:26px;clear:both}
 	.link {color:#888;margin-left:2px;text-decoration:none}
 	.link:hover {color:#444;text-decoration:underline}
+	.github {background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAQAAAC1+jfqAAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAAAEgAAABIAEbJaz4AAAElSURBVCjPZZG9SgNBFIU/sUlAsBCrpBBsLQS1UEuxyiIhkIC+gf0WeQIJKc0DiClSWWiwEp9ATV7AdUkVFPwBOyv9MqsmIXO2OHPOmbl370C28pTokPAuEllJZWIVOFXuElMTsSxRKYztS/pUJs7k3fVVQyRntsc+dQ4osiaKsrpKTyeH1RLKrDLkU/YsEtlQpSwrYUNdr9zhje8JvLKr2tU1FVuoOWWP0FSNdfmgyjztmUBbtabrVzPbmAk0VEMgK7HN05Sd2sNviQ5XLLNlv2cMgjngnD3mWMiaHP1mlSOOWec6BC5YDOOq6ETjQZ1w4zuMAncsaW84yzCobNQ9DtnkPgQeWHFI/6POIi0evWEYAi/cumuN7ex5IhtK+RKpLPp7uh8n/4YrqEg/dwAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxMi0wOC0xNVQwNzoyNDo1MSswNDowMO12EPsAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTItMDgtMTVUMDc6MjQ6NTErMDQ6MDCcK6hHAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAABJRU5ErkJggg==) no-repeat center left;padding-left:20px;position:absolute;right:10px;top:0}
 	</style>
 </head>
 <body>
-	<div id="header"><a href="/" class="title">Lost Code</a></div>
-	<div id="body">
-		{% if code == 403 %}<div class="error"><strong>403</strong><br />некорректные данные</div>{% endif %}
-		{% if code == 404 %}<div class="error"><strong>404</strong><br />страница не найдена</div>{% endif %}
-		{% if code == 500 %}<div class="error"><strong>500</strong><br />ой, что-то пошло не так</div>{% endif %}
+	<div id="wrap">
+		<div id="header"><a href="/" class="title">Lost code</a></div>
+		<div id="body">
+			{% if code == 403 %}<div class="error"><strong>403</strong><br />некорректные данные</div>{% endif %}
+			{% if code == 404 %}<div class="error"><strong>404</strong><br />страница не найдена</div>{% endif %}
+			{% if code == 500 %}<div class="error"><strong>500</strong><br />ой, что-то пошло не так</div>{% endif %}
+		</div>
 	</div>
-	<div id="footer">&copy;<a href="http://foreva.pro" class="link" tabindex="-1">ƒoreva</a></div>
-	<script>
-	function resize_elements() {
-		document.getElementById('body').style.height = (window.innerHeight - document.getElementById('header').offsetHeight - document.getElementById('footer').offsetHeight - 25) + 'px';
-	}
-	window.onload = resize_elements;
-	window.onresize = resize_elements;
-	</script>
+	<div id="footer">&copy;<a href="http://foreva.pro" class="link" tabindex="-1">ƒoreva</a><a href="https://github.com/dreadatour/lostcode" class="link github">Fork me on GitHub</a></div>
 </body>
 </html>
