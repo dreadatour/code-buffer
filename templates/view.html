@@ -7,8 +7,7 @@
 	<style>
 	html, body, div, span, pre, code, input, form {margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline}
 	body {background-color:#fff;font-family:Trebuchet MS, Tahoma, sans-serif;font-size:16px;min-width:900px;height:100%;line-height:1}
-	html, body, #wrap {height:100%}
-	body > #wrap {height:auto;min-height:100%}
+	html, body {height:100%}
 	.title {color:#333;font-size:18px}
 	i {color:#666}
 	a {color:#396298}
@@ -16,7 +15,7 @@
 	#header {background-color:#eee;border-bottom:1px solid #ccc;padding:10px}
 	.home {font-weight:bold;text-decoration:none}
 	.controls {color:#888;float:right}
-	#body {background-color:#fff;padding:10px 10px 26px}
+	#body {background-color:#fff;padding:10px 10px 26px;overflow-x:scroll}
 	#footer {background-color:#eee;border-top:1px solid #ccc;color:#888;font-size:14px;line-height:26px;text-align:center;position:relative;margin-top:-26px;height:26px;clear:both}
 	.link {color:#888;margin-left:2px;text-decoration:none}
 	.link:hover {color:#444;text-decoration:underline}
@@ -89,10 +88,17 @@
 	</style>
 </head>
 <body>
-	<div id="wrap">
-		<div id="header"><a href="/" class="home">Lost code</a>:&nbsp;<span class="title">{% if title %}{{ title }}{% else %}<i>Без названия</i>{% endif %}</span><div class="controls">&nbsp;{{ lexer }}&nbsp;|&nbsp;<a href="/{{ uid }}/raw/">raw</a>{% if editable %}&nbsp;|&nbsp;<a href="/{{ uid }}/edit/">edit</a>{% endif %}</div></div>
-		<div id="body" class="clearfix">{{ html|safe }}</div>
-	</div>
+	<div id="header"><a href="/" class="home">Lost code</a>:&nbsp;<span class="title">{% if title %}{{ title }}{% else %}<i>Без названия</i>{% endif %}</span><div class="controls">&nbsp;{{ lexer }}&nbsp;|&nbsp;<a href="/{{ uid }}/raw/">raw</a>{% if editable %}&nbsp;|&nbsp;<a href="/{{ uid }}/edit/">edit</a>{% endif %}</div></div>
+	<div id="body" class="clearfix">{{ html|safe }}</div>
 	<div id="footer">&copy;<a href="http://foreva.pro" class="link" tabindex="-1">ƒoreva</a><a href="https://github.com/dreadatour/lostcode" class="link github">Fork me on GitHub</a></div>
+	<script>
+	function resize_elements() {
+		var header = document.getElementById('header');
+		var footer = document.getElementById('footer');
+		document.getElementById('body').style.height = (window.innerHeight - header.offsetHeight - footer.offsetHeight - 10) + 'px';
+	}
+	window.onload = function() {resize_elements(); document.getElementById('code').focus()};
+	window.onresize = resize_elements;
+	</script>
 </body>
 </html>
