@@ -7,7 +7,7 @@
 	<style>
 	html, body, div, span, input, form {margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline}
 	body {background:#eee;font-family:Trebuchet MS, Tahoma, sans-serif;font-size:16px;min-width:900px}
-	span {color:#333;font-size:14px;line-height:14px;margin-left:10px}
+	span {color:#333;cursor:default;font-size:14px;line-height:14px;margin-left:10px}
 	span:first-child {margin-left:0}
 	input[type="text"], textarea {background-color:#eeeeee;background-image:linear-gradient(top, #eeeeee 0, white 15px);background-image:-o-linear-gradient(top, #eeeeee 0, white 15px);background-image:-moz-linear-gradient(top, #eeeeee 0, white 15px);background-image:-webkit-linear-gradient(top, #eeeeee 0, white 15px);background-image:-ms-linear-gradient(top, #eeeeee 0, white 15px);-moz-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;border:1px solid #888888;cursor:text;font-family:Trebuchet MS, Tahoma, sans-serif;font-size:16px;height:26px;line-height:18px;padding:3px 5px;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box}
 	textarea {font-family:monospace;font-size:16px;line-height:18px;margin:0;padding:3px;resize:none;width:100%;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box}
@@ -26,7 +26,7 @@
 <body>
 	<form action="/save/" method="post">{% if uid %}<input type="hidden" name="uid" value="{{ uid }}">{% endif %}
 	<div id="header"><span>Имя файла:&nbsp;</span><input id="title" type="text" name="title" value="{{ title }}" tabindex="1"><span>Синтаксис:&nbsp;</span><select name="lang" tabindex="3"><option value=""{% if not lang %} selected="true"{% endif %}>- без подсветки синтаксиса -</option><option value="*auto*"{% if not uid or lang == '*auto*' %} selected="true"{% endif %}>- автоопределение -</option>{% for lex in lexers %}<option value="{{ lex.name }}"{% if lex.name == lang %}selected="true"{% endif %}>{{ lex.title }}</option>{% endfor %}</select>{% if uid %}<input type="button" value="Отмена" tabindex="5" onclick="location.href='/{{ uid }}/'">{% endif %}<input type="submit" value="{% if uid %}Сохранить{% else %}Добавить{% endif %}" tabindex="4"></div>
-	<div id="body"><textarea id="code" name="code" tabindex="2">{{ code }}</textarea></div>
+	<div id="body"><textarea id="code" name="code" tabindex="2" autofocus="true">{{ code }}</textarea></div>
 	</form>
 	<div id="footer">&copy;<a href="http://foreva.pro" class="link" tabindex="-1">ƒoreva</a><a href="https://github.com/dreadatour/lostcode" class="link github">Fork me on GitHub</a></div>
 	<script>
@@ -42,7 +42,7 @@
 		document.getElementById('title').style.width = (header.offsetWidth - childs_width - {% if uid %}34{% else %}24{% endif %}) + 'px';
 		document.getElementById('code').style.height = (window.innerHeight - header.offsetHeight - footer.offsetHeight - 35) + 'px';
 	}
-	window.onload = function() {resize_elements(); document.getElementById('code').focus()};
+	window.onload = resize_elements;
 	window.onresize = resize_elements;
 	</script>
 </body>
