@@ -36,7 +36,7 @@
 		var footer = document.getElementById('footer');
 		document.getElementById('body').style.height = (window.innerHeight - header.offsetHeight - footer.offsetHeight - 10) + 'px';
 	}
-	window.onload = function() {resize_elements(); document.getElementById('code').focus()};
+	window.onload = resize_elements;
 	window.onresize = resize_elements;
 	</script>
 </body>
