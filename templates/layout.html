@@ -105,7 +105,7 @@
 </head>
 <body>
 	{% block body %}{% endblock %}
-	<div id="footer">&copy;<a href="http://foreva.pro" class="footer-link" tabindex="-1">ƒoreva</a><a href="https://github.com/dreadatour/lostcode" class="footer-link github">Fork me on GitHub</a></div>
+	<div id="footer">&copy;<a href="http://foreva.pro" class="footer-link" tabindex="-1">ƒoreva</a><a href="https://github.com/dreadatour/lostcode" class="footer-link github" tabindex="-1">Fork me on GitHub</a></div>
 	{% block script %}<script>
 	function resize_elements() {
 		var header = document.getElementById('header');
@@ -130,8 +130,14 @@
 	}
 	window.onload = resize_elements;
 	window.onresize = resize_elements;
+
 	var code = document.getElementById('code');
 	if (code) {
+		code.addEventListener('keydown', function(e) {
+			if(e.keyCode == 13 && e.metaKey) {
+				this.form.submit();
+			}
+		});
 		code.focus();
 	}
 	</script>{% endblock %}
