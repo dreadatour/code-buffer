@@ -35,8 +35,9 @@ Just for fun (проект выходного дня).
 
 ### Добавление кода:
 
-![Screenshot](http://cdn.dreadatour.ru/28vOL.png)
+
+![Screenshot](http://habrastorage.org/files/81e/173/0f0/81e1730f08304c59bc6ab138632d84d1.png)
 
 ### Просмотр кода:
 
-![Screenshot](http://cdn.dreadatour.ru/HCF0I.png)
+![Screenshot](http://habrastorage.org/files/690/1af/992/6901af9925ab4bb7b980929adf85ee4e.png)
