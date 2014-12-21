@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 
 {% block body %}
-	<div id="header"><a href="/" class="home">Lost code</a>:&nbsp;<span class="title">{% if title %}{{ title }}{% else %}<i>Без названия</i>{% endif %}</span><div class="controls">&nbsp;{{ lexer }}&nbsp;|&nbsp;<a href="/{{ uid }}/raw/">raw</a>{% if editable %}&nbsp;|&nbsp;<a href="/{{ uid }}/edit/">edit</a>{% endif %}</div></div>
+	<div id="header"><a href="/" class="home">Lost code</a>:&nbsp;<span class="title">{% if title %}{{ title }}{% else %}<i>Без названия</i>{% endif %}</span><div class="controls">&nbsp;{{ lexer }}&nbsp;|&nbsp;<a href="/{{ uid }}/raw/">raw</a>{% if editable %}&nbsp;|&nbsp;<a href="/{{ uid }}/edit/">edit</a>{% endif %}&nbsp;|&nbsp;<a href="/{{ uid }}/clone/">clone</a></div></div>
 	<div id="body" class="clearfix">{{ html|safe }}</div>
 {% endblock %}

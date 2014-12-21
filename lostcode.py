@@ -8,9 +8,7 @@ import os
 import re
 import uuid
 
-from pygments import highlight
-from pygments.lexers import (
-    get_lexer_by_name, guess_lexer, get_all_lexers, TextLexer, ClassNotFound)
+from pygments import highlight, lexers
 from pygments.formatters import HtmlFormatter
 
 from flask import Flask, abort, request, Response, redirect, render_template
@@ -24,12 +22,15 @@ SNIPPETS_DIR = os.path.abspath(os.path.join(PROJECT_ROOT, 'snippets'))
 UID_RE = re.compile(r'^[0-9a-fA-F]{32}$')
 
 
-def lexers_list():
+def get_lexers():
     """
     Get list of pygments lexers.
     """
-    lexers = [{'title': lex[0], 'name': lex[1][0]} for lex in get_all_lexers()]
-    return sorted(lexers, key=lambda lex: lex['title'].lower())
+    lexers_list = [
+        {'title': lex[0], 'name': lex[1][0]}
+        for lex in lexers.get_all_lexers()
+    ]
+    return sorted(lexers_list, key=lambda lex: lex['title'].lower())
 
 
 def snippet_file(uid):
@@ -193,25 +194,25 @@ def view(uid):
             snippet['editable'] = True  # user can edit snippet
 
     if request.path.endswith('/raw/'):  # this is raw snippet view
-        return Response(code, content_type='text/plain')
+        return Response(code, content_type='text/plain; charset=utf-8')
 
     if request.path.endswith('/edit/'):  # this is 'edit snippet' page
-        return render_template('edit.html', lexers=lexers_list(), **snippet)
+        return render_template('edit.html', lexers=get_lexers(), **snippet)
 
     # get lexer
     lang = snippet.get('lang')
-    if lang == '*auto*':
-        if code:
-            lexer = guess_lexer(code)
+    try:
+        if lang == '*auto*':
+            if code:
+                lexer = lexers.guess_lexer(code)
+            else:
+                lexer = lexers.TextLexer()
+        elif lang:
+            lexer = lexers.get_lexer_by_name(lang, stripall=True)
         else:
-            lexer = TextLexer()
-    elif lang:
-        try:
-            lexer = get_lexer_by_name(lang, stripall=True)
-        except ClassNotFound:
-            lexer = TextLexer()
-    else:
-        lexer = TextLexer()
+            lexer = lexers.TextLexer()
+    except lexers.ClassNotFound:
+        lexer = lexers.TextLexer()
     snippet['lexer'] = lexer.name
 
     # format code with lexer
@@ -222,12 +223,52 @@ def view(uid):
     return render_template('view.html', **snippet)
 
 
+@app.route('/<uid>/clone/', methods=['GET'])
+def clone(uid):
+    """
+    Clone snippet.
+    """
+    if not UID_RE.match(uid):
+        abort(404)  # uid is bad
+
+    filename = snippet_file(uid)
+    if not os.path.isfile(filename):
+        app.logger.warning("File not found: '%s'" % filename)
+        abort(404)  # file is not found
+
+    snippet = read_snippet(filename)
+    if snippet is None:
+        app.logger.error("Can't read file: '%s'" % filename)
+        abort(404)  # file is bad (can't read it)
+
+    user_id = request.cookies.get('user_id')
+    if user_id is None:  # this is new user
+        user_id = uuid.uuid4().get_hex()  # create new user id
+
+    uid = uuid.uuid4().get_hex()  # generate new snippet uid
+    filename = snippet_file(uid)  # generate snippet filename by uid
+
+    # clone snippet
+    save_snippet(
+        filename,
+        user_id,
+        snippet.get('lang', ''),
+        snippet.get('title', ''),
+        snippet.get('code', '')
+    )
+
+    # add user_id cookie to response and redirect to 'view snippet' page
+    response = app.make_response(redirect('/%s/edit/' % uid))
+    response.set_cookie('user_id', value=user_id, max_age=604800)  # one week
+    return response
+
+
 @app.route('/', methods=['GET'])
 def add():
     """
     Edit snippet.
     """
-    return render_template('edit.html', lexers=lexers_list())
+    return render_template('edit.html', lexers=get_lexers())
 
 
 if __name__ == '__main__':
