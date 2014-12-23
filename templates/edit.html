@@ -2,7 +2,27 @@
 
 {% block body %}
 	<form action="/save/" method="post">{% if uid %}<input type="hidden" name="uid" value="{{ uid }}">{% endif %}
-	<div id="header"><label class="float">Название:&nbsp;<input id="title" type="text" name="title" value="{{ title }}" tabindex="1"></label><label class="float">Синтаксис:&nbsp;<select name="lang" tabindex="3"><option value=""{% if not lang %} selected="true"{% endif %}>- без подсветки синтаксиса -</option><option value="*auto*"{% if not uid or lang == '*auto*' %} selected="true"{% endif %}>- автоопределение -</option>{% for lex in lexers %}<option value="{{ lex.name }}"{% if lex.name == lang %}selected="true"{% endif %}>{{ lex.title }}</option>{% endfor %}</select></label>{% if uid %}<input type="button" value="Отмена" tabindex="5" onclick="location.href='/{{ uid }}/'" class="float">{% endif %}<input type="submit" value="Сохранить" tabindex="4" class="float"></div>
-	<div id="body"><div class="highlighttable"><textarea id="code" name="code" tabindex="2" autofocus="true">{{ code }}</textarea></div></div>
+	<div class="header header-edit">
+		<div class="header-div"></div>
+		<div class="header-cell"><label for="title">Название:&nbsp;</label></div>
+		<div class="header-cell header-wide"><input type="text" name="title" id="title" value="{{ title }}" tabindex="1"></div>
+		<div class="header-div"></div>
+		<div class="header-cell"><label for="lang">Синтаксис:&nbsp;</label></div>
+		<div class="header-cell"><select name="lang" id="lang" tabindex="3"><option value=""{% if not lang %} selected="true"{% endif %}>- без подсветки синтаксиса -</option><option value="*auto*"{% if not uid or lang == '*auto*' %} selected="true"{% endif %}>- автоопределение -</option>{% for lex in lexers %}<option value="{{ lex.name }}"{% if lex.name == lang %}selected="true"{% endif %}>{{ lex.title }}</option>{% endfor %}</select></div>
+		{% if uid %}<div class="header-div"></div>
+		<div class="header-cell"><input type="button" value="Отмена" tabindex="5" onclick="location.href='/{{ uid }}/'"></div>{% endif %}
+		<div class="header-div"></div>
+		<div class="header-cell"><input type="submit" value="Сохранить" tabindex="4"></div>
+		<div class="header-div"></div>
+	</div>
+	<div class="body"><div class="body-content"><textarea name="code" id="code" tabindex="2" autofocus="true">{{ code }}</textarea></div></div>
 	</form>
 {% endblock %}
+
+{% block script %}<script>
+	document.getElementById('code').addEventListener('keydown', function(e) {
+		if (e.keyCode == 13 && e.metaKey) {
+			this.form.submit();
+		}
+	});
+	</script>{% endblock %}

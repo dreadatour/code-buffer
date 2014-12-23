@@ -1,6 +1,12 @@
 {% extends "layout.html" %}
 
 {% block body %}
-	<div id="header"><a href="/" class="home">Lost code</a>:&nbsp;<span class="title">{% if title %}{{ title }}{% else %}<i>Без названия</i>{% endif %}</span><div class="controls">&nbsp;{{ lexer }}&nbsp;|&nbsp;<a href="/{{ uid }}/raw/">raw</a>{% if editable %}&nbsp;|&nbsp;<a href="/{{ uid }}/edit/">edit</a>{% endif %}&nbsp;|&nbsp;<a href="/{{ uid }}/clone/">clone</a></div></div>
-	<div id="body" class="clearfix">{{ html|safe }}</div>
+	<div class="header">
+		<div class="header-div"></div>
+		<div class="header-cell header-wide header-text"><a href="/" class="header-title">Lost code</a><span class="header-filename">:&nbsp;{% if title %}{{ title }}{% else %}<i>Без названия</i>{% endif %}</span></div>
+		<div class="header-div"></div>
+		<div class="header-cell header-solid"><span class="header-control">{{ lexer }}</span><span class="control-div">|</span><span class="header-control"><a href="/{{ uid }}/raw/">raw</a></span>{% if editable %}<span class="control-div">|</span><span class="header-control"><a href="/{{ uid }}/edit/">edit</a></span>{% endif %}<span class="control-div">|</span><span class="header-control"><a href="/{{ uid }}/clone/">clone</a></span></div>
+		<div class="header-div"></div>
+	</div>
+	<div class="body">{{ html|safe }}</div>
 {% endblock %}

@@ -3,6 +3,18 @@
 {% block title %}{{ code }} - {{ super() }}{% endblock %}
 
 {% block body %}
-	<div id="header"><a href="/" class="home">Lost code</a></div>
-	<div id="body">{% if code == 403 %}<div class="error"><strong>403</strong><br />некорректные данные</div>{% elif code == 404 %}<div class="error"><strong>404</strong><br />страница не найдена</div>{% elif code == 500 %}<div class="error"><strong>500</strong><br />ой, что-то пошло не так</div>{% endif %}</div>
+	<div class="header">
+		<div class="header-div"></div>
+		<div class="header-cell header-wide"><a href="/" class="header-title">Lost code</a></div>
+		<div class="header-div"></div>
+	</div>
+	<div class="body">
+	{% if code == 403 %}
+		<div class="error"><strong>403</strong><br>некорректные данные</div>
+	{% elif code == 404 %}
+		<div class="error"><strong>404</strong><br>страница не найдена</div>
+	{% elif code == 500 %}
+		<div class="error"><strong>500</strong><br>ой, что-то пошло не так</div>
+	{% endif %}
+	</div>
 {% endblock %}
