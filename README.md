@@ -4,6 +4,7 @@
 
 Just for fun (проект выходного дня).
 
+
 ### Установка
 
 1. Клонируем репозиторий:
@@ -27,6 +28,7 @@ Just for fun (проект выходного дня).
 6. ...
 7. Profit!
 
+
 ### Удаление старых файлов
 
 Для удаления всех файлов старше 30 дней добавляем в крон (например, раз в сутки, ночью) следующую команду:
@@ -35,9 +37,9 @@ Just for fun (проект выходного дня).
 
 ### Добавление кода:
 
+![Edit code](https://raw.githubusercontent.com/dreadatour/lostcode/master/screenshots/edit.png)
 
-![Screenshot](http://habrastorage.org/files/81e/173/0f0/81e1730f08304c59bc6ab138632d84d1.png)
 
 ### Просмотр кода:
 
-![Screenshot](http://habrastorage.org/files/690/1af/992/6901af9925ab4bb7b980929adf85ee4e.png)
+![View code](https://raw.githubusercontent.com/dreadatour/lostcode/master/screenshots/view.png)

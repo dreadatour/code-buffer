@@ -1,2 +1,3 @@
 *.pyc
 snippets
+.DS_Store
